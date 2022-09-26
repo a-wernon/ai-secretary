@@ -134,14 +134,21 @@ if __name__ == '__main__':
 
     folder = '/home/art-bash/Documents/datasets_msg/xstore/messages/inbox'
     users = glob.glob(folder + '/*')
-    res = []
-    for u in tqdm.tqdm(users):
-        msg_raw = extract_all_messages_from_html(open(u + '/message_1.html', 'r'))
-        messages = glue_all(msg_raw, owner='ТЕЛЕФОНЫ / ГРОЗНЫЙ / АНТИГРАВИЙНАЯ ПЛЕНКА')
-        res += messages
+    extracts = {
+        'glue_all': glue_all,
+        'glue_all_but_owner': glue_all_but_owner,
+        'glue_split_owner': glue_neighbours_cut_owner
+    }
+    for extr in extracts:
+        res = []
+        for u in tqdm.tqdm(users):
+            msg_raw = extract_all_messages_from_html(open(u + '/message_1.html', 'r'))
+            messages = extracts[extr](msg_raw, owner='ТЕЛЕФОНЫ / ГРОЗНЫЙ / АНТИГРАВИЙНАЯ ПЛЕНКА')
+            res += messages
 
-    rs_f = open('glue_all.txt', 'w')
-    for ms in res:
-        ms_filt = ms.replace('\n', ' ')
-        rs_f.write(ms_filt + '\n')
-    rs_f.close()
+        rs_f = open('../dat/' + extr + '.txt', 'w')
+        for ms in res:
+            ms_filt = ms.replace('\n', ' ')
+            ms_filt = ms_filt.replace(';', ',')
+            rs_f.write(ms_filt + '\n')
+        rs_f.close()
