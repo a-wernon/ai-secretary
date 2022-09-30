@@ -193,7 +193,7 @@ def is_same(x, y):
         return lev(x, y) <= 3
 
 
-def filt_message(msg, enable_normalise=True, enable_translit=True, try_to_voc=True, force_voc=True):
+def filt_message(msg, enable_normalise=True, enable_translit=False, try_to_voc=True, force_voc=True):
     block_list_for_msg = [
         '@xstore95',
         'video',
@@ -309,7 +309,7 @@ if __name__ == '__main__':
 
     print(norm_and_filt([['','',['автомобильная зарядка тото за 2 ял вариант юй?, ассаламу 1алайкум, ваа1алейкум ассалам, за 2200₽ лур ю брат), дел рез хил!, до ск работаете?, до 19 по любому будем в магазине дала мукъ лахь']]]))
 
-    raise IndexError
+    #raise IndexError
 
     folder = '/home/art-bash/Documents/datasets_msg/xstore/messages/inbox'
     users = glob.glob(folder + '/*')
@@ -339,7 +339,7 @@ if __name__ == '__main__':
 
             messages = extracts[extr](msg_filt, owner='ТЕЛЕФОНЫ / ГРОЗНЫЙ / АНТИГРАВИЙНАЯ ПЛЕНКА')
 
-            res += messages
+            res += (messages)
 
         rs_f = open('../dat/' + extr + '.txt', 'w')
         for ms in res:
